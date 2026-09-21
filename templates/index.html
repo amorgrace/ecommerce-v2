@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UDDY API BASE — High-Performance E-Commerce Engine</title>
+  <meta name="description" content="UDDY API BASE: High-Performance Modular E-Commerce REST API powered by Django Ninja, JWT Auth, Neon Postgres, and Sendlib Messaging.">
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #07090e;
+      --bg-surface: rgba(17, 24, 39, 0.7);
+      --bg-surface-hover: rgba(30, 41, 59, 0.8);
+      --bg-card: rgba(15, 23, 42, 0.65);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(168, 85, 247, 0.4);
+      --primary: #8b5cf6;
+      --primary-glow: rgba(139, 92, 246, 0.35);
+      --accent-cyan: #06b6d4;
+      --accent-green: #10b981;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --code-bg: #030712;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.18), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(6, 182, 212, 0.1), transparent 60%),
+        radial-gradient(circle at 20% 60%, rgba(168, 85, 247, 0.08), transparent 50%);
+    }
+
+    /* Ambient animated mesh background grid */
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(7, 9, 14, 0.75);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .brand-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: -0.5px;
+    }
+
+    .badge-pill {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: rgba(139, 92, 246, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 13px;
+      color: #34d399;
+      font-weight: 500;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent-green);
+      box-shadow: 0 0 10px var(--accent-green);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 20px var(--primary-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 50px;
+      text-align: center;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(38px, 6vw, 68px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 30%, #c084fc 70%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 680px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Architecture Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin: 60px 0 40px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.4), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(168, 85, 247, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* API Explorer Section */
+    .explorer-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 36px;
+      margin: 40px 0 80px;
+      backdrop-filter: blur(20px);
+    }
+
+    .explorer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .explorer-title h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .explorer-title p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .endpoint-tabs {
+      display: flex;
+      gap: 8px;
+      background: rgba(3, 7, 18, 0.6);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
+
+    .console-box {
+      background: var(--code-bg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 20px;
+      position: relative;
+    }
+
+    .console-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .console-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .method-post { color: #f59e0b; }
+    .method-get { color: #10b981; }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-primary);
+    }
+
+    pre {
+      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #e2e8f0;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    .comment { color: #64748b; }
+    .key { color: #c084fc; }
+    .string { color: #38bdf8; }
+    .number { color: #f472b6; }
+
+    /* System Stats Banner */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+
+    .stat-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #10b981;
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    footer a:hover {
+      color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 50px 0 30px; }
+      .explorer-section { padding: 20px; }
+      nav { flex-direction: column; gap: 16px; }
+      .nav-actions { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <div class="container">
+    <!-- Navbar -->
+    <nav>
+      <a href="/" class="brand" id="nav-brand">
+        <div class="brand-icon">U</div>
+        <div class="brand-text">UDDY API BASE</div>
+        <span class="badge-pill">v1.0.0</span>
+      </a>
+
+      <div class="nav-actions">
+        <div class="status-indicator">
+          <div class="pulse-dot"></div>
+          <span>Systems Operational</span>
+        </div>
+        <a href="/api/docs" class="btn btn-primary" id="nav-docs-btn">
+          <span>Explore Docs</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-tag">
+        <span>⚡ Next-Gen E-Commerce Core Engine</span>
+      </div>
+      <h1>
+        <span class="gradient-text">WELCOME TO UDDY API BASE</span>
+      </h1>
+      <p>
+        The modular, high-performance REST API backbone built with <strong>Django Ninja</strong>, 
+        stateless <strong>JWT Security</strong>, <strong>Neon Serverless PostgreSQL</strong>, and real-time <strong>Sendlib Transactional Messaging</strong>.
+      </p>
+
+      <div class="hero-actions">
+        <a href="/api/docs" class="btn btn-primary" id="hero-docs-btn" style="padding: 14px 28px; font-size: 15px;">
+          <span>Interactive API Docs</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <a href="/admin/" class="btn btn-secondary" id="hero-admin-btn" style="padding: 14px 28px; font-size: 15px;">
+          <span>Django Admin</span>
+        </a>
+        <button class="btn btn-secondary" id="copy-base-url-btn" onclick="copyBaseUrl()" style="padding: 14px 24px; font-size: 15px;">
+          <span>Copy Base URL</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Architecture & Features Grid -->
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="color: #a855f7;">🔐</div>
+        <h3>Modular JWT Authentication</h3>
+        <p>Stateless HS256 JWT tokens with asymmetric security models, UUID primary keys, and auto token-refresh mechanisms.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="color: #38bdf8;">🐘</div>
+        <h3>Neon Serverless PostgreSQL</h3>
+        <p>Cloud-native pooled PostgreSQL database with SSL encryption, instant migrations, and scalable connection health checks.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="color: #34d399;">📬</div>
+        <h3>Sendlib Messaging Gateway</h3>
+        <p>Seamless transactional email dispatch with custom brand aliases, verified Gmail gateways, and real-time delivery tracking.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="color: #f59e0b;">⚡</div>
+        <h3>Django Ninja OpenAPI</h3>
+        <p>Blazing fast endpoint routing with automatic OpenAPI 3.1 schema generation and strict Pydantic input validation.</p>
+      </div>
+    </div>
+
+    <!-- Interactive API Playground -->
+    <section class="explorer-section">
+      <div class="explorer-header">
+        <div class="explorer-title">
+          <h2>Live Endpoint Playground</h2>
+          <p>Quick reference for primary authentication and profile endpoints</p>
+        </div>
+
+        <div class="endpoint-tabs">
+          <button class="tab-btn active" onclick="switchTab('token')" id="tab-token">POST /api/token/pair</button>
+          <button class="tab-btn" onclick="switchTab('register')" id="tab-register">POST /api/auth/register</button>
+          <button class="tab-btn" onclick="switchTab('me')" id="tab-me">GET /api/auth/me</button>
+          <button class="tab-btn" onclick="switchTab('password')" id="tab-password">POST /api/auth/change-password</button>
+        </div>
+      </div>
+
+      <div class="console-box">
+        <div class="console-bar">
+          <div class="console-badge" id="console-badge">
+            <span class="method-post" id="console-method">POST</span>
+            <span id="console-path">/api/token/pair</span>
+          </div>
+          <button class="copy-btn" onclick="copySnippet()" id="copy-code-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>Copy cURL</span>
+          </button>
+        </div>
+        <pre><code id="code-snippet"></code></pre>
+      </div>
+    </section>
+
+    <!-- Status & Stats Banner -->
+    <div class="stats-bar">
+      <div class="stat-pill">
+        <div class="stat-value">UUID v4</div>
+        <div class="stat-label">Identity Model</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-value" style="color: #34d399;">Neon DB</div>
+        <div class="stat-label">Cloud PostgreSQL</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-value" style="color: #38bdf8;">Sendlib</div>
+        <div class="stat-label">Verified Email Dispatch</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-value">OpenAPI 3.1</div>
+        <div class="stat-label">Documentation Engine</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 <strong>UDDY API BASE</strong> • E-Commerce V2 Backend Engine • <a href="/api/docs">Interactive Swagger Docs</a></p>
+    </footer>
+  </div>
+
+  <div id="toast">Copied to clipboard!</div>
+
+  <script>
+    const snippets = {
+      token: {
+        method: 'POST',
+        path: '/api/token/pair',
+        badgeClass: 'method-post',
+        code: `curl -X POST "${window.location.origin}/api/token/pair" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "username": "tester@testmail.com",
+    "password": "TestPassword123!"
+  }'
+
+# Response:
+{
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}`
+      },
+      register: {
+        method: 'POST',
+        path: '/api/auth/register',
+        badgeClass: 'method-post',
+        code: `curl -X POST "${window.location.origin}/api/auth/register" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "email": "customer@example.com",
+    "username": "customer",
+    "password": "SecurePassword123!",
+    "password_confirm": "SecurePassword123!"
+  }'
+
+# Response (201 Created):
+{
+  "id": "7bba8d65-07d7-4077-8a99-8859608be224",
+  "email": "customer@example.com",
+  "username": "customer",
+  "first_name": "",
+  "last_name": "",
+  "is_active": true,
+  "date_joined": "2026-09-21T16:53:02Z"
+}`
+      },
+      me: {
+        method: 'GET',
+        path: '/api/auth/me',
+        badgeClass: 'method-get',
+        code: `curl -X GET "${window.location.origin}/api/auth/me" \\
+  -H "Authorization: Bearer <YOUR_ACCESS_TOKEN>"
+
+# Response (200 OK):
+{
+  "id": "7bba8d65-07d7-4077-8a99-8859608be224",
+  "email": "tester@testmail.com",
+  "username": "tester",
+  "is_active": true
+}`
+      },
+      password: {
+        method: 'POST',
+        path: '/api/auth/change-password',
+        badgeClass: 'method-post',
+        code: `curl -X POST "${window.location.origin}/api/auth/change-password" \\
+  -H "Authorization: Bearer <YOUR_ACCESS_TOKEN>" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "old_password": "TestPassword123!",
+    "new_password": "NewSecretPassword456!"
+  }'
+
+# Response:
+{
+  "message": "Password changed successfully."
+}`
+      }
+    };
+
+    let currentTab = 'token';
+
+    function switchTab(key) {
+      currentTab = key;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`tab-${key}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const item = snippets[key];
+      const methodSpan = document.getElementById('console-method');
+      methodSpan.textContent = item.method;
+      methodSpan.className = item.badgeClass;
+      document.getElementById('console-path').textContent = item.path;
+      document.getElementById('code-snippet').textContent = item.code;
+    }
+
+    function showToast(msg = 'Copied to clipboard!') {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    function copySnippet() {
+      const code = snippets[currentTab].code;
+      navigator.clipboard.writeText(code).then(() => showToast('Snippet copied to clipboard!'));
+    }
+
+    function copyBaseUrl() {
+      navigator.clipboard.writeText(window.location.origin + '/api').then(() => {
+        showToast('API Base URL copied: ' + window.location.origin + '/api');
+      });
+    }
+
+    // Initialize default tab
+    switchTab('token');
+  </script>
+</body>
+</html>
