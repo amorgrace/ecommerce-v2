@@ -1,8 +1,20 @@
-from django.contrib.auth import get_user_model
+from __future__ import annotations
 
+import logging
+from typing import TYPE_CHECKING
+
+from django.contrib.auth import get_user_model
+from django.template.loader import render_to_string
+
+from authenticator.email_service import send_email_via_sendlib
 from authenticator.schemas import RegisterSchema, ChangePasswordSchema
 
-User = get_user_model()
+if TYPE_CHECKING:
+    from authenticator.models import User
+else:
+    User = get_user_model()
+
+logger = logging.getLogger(__name__)
 
 
 class AuthService:
@@ -10,7 +22,7 @@ class AuthService:
 
     @staticmethod
     def register_user(data: RegisterSchema) -> User:
-        """Create a new user account."""
+        """Create a new user account and send a welcome email."""
 
         if data.password != data.password_confirm:
             raise ValueError("Passwords do not match.")
@@ -26,6 +38,26 @@ class AuthService:
             email=data.email,
             password=data.password,
         )
+
+        # Send welcome email — never block registration on email failure
+        try:
+            explore_url = "https://blissbyuddy.com/products"
+            html_content = render_to_string(
+                "emails/welcome.html",
+                {
+                    "username": user.username,
+                    "explore_url": explore_url,
+                },
+            )
+            send_email_via_sendlib(
+                to=user.email,
+                subject="Welcome to BlissByUddy ✨",
+                html=html_content,
+                text=f"Welcome to BlissByUddy, {user.username}! Explore our products at {explore_url}",
+            )
+        except Exception as e:
+            logger.warning(f"Welcome email failed for {user.email}: {e}")
+
         return user
 
     @staticmethod
@@ -40,3 +72,5 @@ class AuthService:
 
         user.set_password(data.new_password)
         user.save(update_fields=["password"])
+
+

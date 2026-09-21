@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to BlissByUddy</title>
+  <style>
+    /* Reset & Base */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f5;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+    table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+    td {
+      padding: 0;
+    }
+    img {
+      border: 0;
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Container */
+    .wrapper {
+      width: 100%;
+      table-layout: fixed;
+      background-color: #f4f4f5;
+      padding: 40px 12px 64px;
+    }
+    .main-table {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border: 1px solid #e4e4e7;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Top Announcement Bar */
+    .perk-bar {
+      background-color: #18181b;
+      color: #fafafa;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Header */
+    .header {
+      padding: 28px 24px;
+      text-align: center;
+      background-color: #ffffff;
+      border-bottom: 1px solid #f4f4f5;
+    }
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: #18181b;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    /* Hero Image */
+    .hero-container {
+      width: 100%;
+      background-color: #ececec;
+    }
+    .hero-img {
+      width: 100%;
+      height: auto;
+      max-height: 380px;
+      object-fit: cover;
+    }
+
+    /* Intro Body */
+    .body-content {
+      padding: 40px 36px 36px;
+      text-align: center;
+    }
+    .welcome-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #71717a;
+      margin-bottom: 12px;
+    }
+    .headline {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: #18181b;
+      line-height: 1.25;
+      margin: 0 0 14px;
+    }
+    .subhead {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #52525b;
+      margin: 0 auto 28px;
+      max-width: 460px;
+    }
+
+    /* Center Button */
+    .btn-center-container {
+      margin: 0 auto 8px;
+      text-align: center;
+    }
+    .btn-primary {
+      display: inline-block;
+      background-color: #18181b;
+      color: #ffffff !important;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    /* Minimal Footer */
+    .footer {
+      border-top: 1px solid #f4f4f5;
+      padding: 28px 32px;
+      text-align: center;
+      background-color: #fafafa;
+    }
+    .footer-copy {
+      color: #71717a;
+      font-size: 12px;
+      margin: 0 0 6px;
+      letter-spacing: 0.01em;
+    }
+    .footer-sub {
+      color: #a1a1aa;
+      font-size: 11px;
+      margin: 0;
+    }
+    .footer-sub a {
+      color: #71717a;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    @media screen and (max-width: 599px) {
+      .body-content { padding: 32px 20px 28px !important; }
+      .headline { font-size: 24px !important; }
+      .subhead { font-size: 14px !important; margin-bottom: 24px !important; }
+      .btn-primary { padding: 13px 28px !important; width: 80% !important; box-sizing: border-box !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <table class="main-table" role="presentation" align="center">
+      <!-- PERK BAR -->
+      <tr>
+        <td class="perk-bar">
+          Welcome Perk: Complimentary Shipping On Your First Order &bull; Code: BLISSWELCOME
+        </td>
+      </tr>
+
+      <!-- BRAND HEADER -->
+      <tr>
+        <td class="header">
+          <a href="{{ explore_url|default:'https://blissbyuddy.com' }}" class="logo">
+            BlissByUddy
+          </a>
+        </td>
+      </tr>
+
+      <!-- HERO BANNER IMAGE -->
+      <tr>
+        <td class="hero-container">
+          <a href="{{ explore_url|default:'https://blissbyuddy.com/products' }}">
+            <img
+              class="hero-img"
+              src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80"
+              alt="BlissByUddy Curated Collection"
+              width="600"
+            >
+          </a>
+        </td>
+      </tr>
+
+      <!-- INTRO COPY & CENTER BUTTON -->
+      <tr>
+        <td class="body-content">
+          <span class="welcome-tag">Member Welcome</span>
+          <h1 class="headline">Hello {{ username|default:"there" }}, welcome to the collective.</h1>
+          <p class="subhead">
+            Your account is confirmed. Explore clean silhouettes, thoughtful palettes, and premium everyday essentials crafted to endure season after season.
+          </p>
+
+          <!-- CENTER BUTTON [ Explore Products ] -->
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="btn-center-container">
+            <tr>
+              <td align="center">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                  <tr>
+                    <td align="center" style="border-radius: 6px; background-color: #18181b;">
+                      <a href="{{ explore_url|default:'https://blissbyuddy.com/products' }}" class="btn-primary" target="_blank">
+                        Explore Products
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- FOOTER -->
+      <tr>
+        <td class="footer">
+          <p class="footer-copy">
+            &copy; 2026 BlissByUddy. All rights reserved.
+          </p>
+          <p class="footer-sub">
+            Designed with intention &bull;
+            <a href="https://blissbyuddy.com/unsubscribe" target="_blank">Unsubscribe</a>
+          </p>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
