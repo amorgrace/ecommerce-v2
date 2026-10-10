@@ -74,6 +74,9 @@ and discovering later that it disagrees.
    disabled states.** A control that does not respond to a press reads as
    broken.
 6. **Always run `pnpm lint && pnpm typecheck` before pushing.**
+7. **Always update [`docs/SESSIONS.md`](docs/SESSIONS.md)** at the end of a
+   working session with what changed, what was decided and what is still open.
+   It is how the next session picks up without re-deriving everything.
 
 ## Before you build
 
@@ -104,3 +107,5 @@ pnpm api:types    # regenerate types from the running API's OpenAPI document
 | Rendering, data, state, performance | [`docs/FRONTEND.md`](docs/FRONTEND.md) |
 | Why the browser never holds a token | [`docs/decisions/0001-jwt-in-httponly-cookies-via-bff.md`](docs/decisions/0001-jwt-in-httponly-cookies-via-bff.md) |
 | Every design token | [`src/app/globals.css`](src/app/globals.css) |
+| What happened last session, and what is next | [`docs/SESSIONS.md`](docs/SESSIONS.md) |
+| What needs an answer from the backend developer | [`docs/SESSIONS.md`](docs/SESSIONS.md), "Open" |
