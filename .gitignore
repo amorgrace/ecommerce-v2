@@ -8,3 +8,7 @@ __pycache__/
 *$py.class
 *.log
 .DS_Store
+
+# Eli's backend learning. Sandbox code and lesson notes, not part of the project.
+playground/
+learning/
